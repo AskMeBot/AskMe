@@ -1,0 +1,23 @@
+[
+    {
+      "question": "What is the app used as a Linux command line virtual environment in Android?",
+      "choices":{
+        "1": "A. CMD",
+        "2": "B. Terminal Emulator",
+        "3": "C. Matrix Prompt",
+        "4": "D. Termux"
+      },
+      "answer": "d",
+      "qid": "102"
+    },
+    {
+      "question": "When was the first TV invented?",
+      "choice1": "A. 1932",
+      "choice2": "B. 1993",
+      "choice3": "C. 1920",
+      "choice4": "D. 1845",
+      "answer": "c",
+      "answer_case": "C",
+      "qid": "103"
+    }
+  ]
