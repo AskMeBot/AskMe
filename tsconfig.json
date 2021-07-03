@@ -1,0 +1,7 @@
+{
+    "include": ["src/*", "typings/"],
+    "compilerOptions": {
+        "outDir": "out/",
+        "esModuleInterop": true
+    }
+}
