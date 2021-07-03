@@ -1,16 +1,29 @@
 {
-  "name": "TriviaBot",
-  "version": "1.0.0",
+  "dependencies": {
+    "discord.js": "^13.0.0-dev.a08ce7d.1625097834",
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "@types/node": "^15.12.5"
+  },
+  "name": "triviabot",
   "description": "Want to learn new facts? Learn some with [TriviaBot]!",
-  "main": "app.js",
+  "version": "1.0.0",
+  "main": "out/src/index.js",
+  "types": "typings/",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node out/src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TechGeekGamer/TriviaBot.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0"
-  }
+  "bugs": {
+    "url": "https://github.com/TechGeekGamer/TriviaBot/issues"
+  },
+  "homepage": "https://github.com/TechGeekGamer/TriviaBot#readme"
 }
