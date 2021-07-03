@@ -1,2 +1,2 @@
-# TriviaBot
- Want to learn new facts? Learn some with [TriviaBot]!
+# AskMeBot
+Want to learn new facts? Learn some with AskMe!

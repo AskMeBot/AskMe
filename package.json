@@ -6,8 +6,8 @@
   "devDependencies": {
     "@types/node": "^15.12.5"
   },
-  "name": "triviabot",
-  "description": "Want to learn new facts? Learn some with [TriviaBot]!",
+  "name": "askmebot",
+  "description": "Want to learn new facts? Learn some with AskMeBot!",
   "version": "1.0.0",
   "main": "out/src/index.js",
   "types": "typings/",
@@ -17,13 +17,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TechGeekGamer/TriviaBot.git"
+    "url": "git+https://github.com/AskMeBot/TriviaBot.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TechGeekGamer/TriviaBot/issues"
+    "url": "https://github.com/AskMeBot/TriviaBot/issues"
   },
-  "homepage": "https://github.com/TechGeekGamer/TriviaBot#readme"
+  "homepage": "https://github.com/AskMeBot/TriviaBot#readme"
 }
