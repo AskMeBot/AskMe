@@ -4,6 +4,10 @@ import config from '../config'
 
 const client = new Client({intents:[]})
 
+client.on('ready', () => {
+    console.log(`${client.user.tag} is ready!`)
+})
+
 client.on("interaction", (interaction) => {
 
     //General Commands
