@@ -16,18 +16,30 @@ client.on("interaction", (interaction) => {
             "content":`Want to learn some facts in your own server? [Invite me](<https://discord.com/api/oauth2/authorize?client_id=811759493440471081&scope=applications.commands>) to your server!`,
             "ephemeral":true
         })
+        .catch(console.error)
     }
 
     //Trivia commands/events
     let triviaQuestions:TriviaConfig = JSON.parse(readFileSync("./trivia.json").toString())
-    triviaQuestions = triviaQuestions.filter(tq => !tq.guild_id || tq.guild_id == interaction.guildID);
+    triviaQuestions = triviaQuestions.filter(tq => {
+        return tq && (!tq.guild_id || tq.guild_id == interaction.guildID)
+    });
     if(interaction.isCommand() && interaction.commandName == "trivia"){
+        let footerContent = []
         const currentQuestionIndex = Math.floor(Math.random() * triviaQuestions.length)
         const currentQuestion = triviaQuestions[currentQuestionIndex]
-
+        if(!currentQuestion)
+            return interaction.reply({embeds:[{"title":"😬 Uh oh, this is awkward", "description":`This server doesn't appear to have any trivia questions available. Try again later, or if you believe this is a mistake, contact the bot support server.`}], components:[{"type":1,"components":[{"type":2,"label":"Try again","style":"SECONDARY","customID":`play_again`}]}], ephemeral:true}).catch(console.error)
+        if(currentQuestion.guild_id && currentQuestion.guild_id == interaction.guildID)
+            footerContent.push(`ℹ️ This is a server-specific question`)
+        if(currentQuestion.requireAllAnswersSelected && (currentQuestion.answer instanceof Array))
+            footerContent.push(`#️⃣ You need to select ${currentQuestion.answer.length} options`)
         return interaction.reply({embeds:[{
             "title":"Trivia",
-            "description":`${currentQuestion.question}`
+            "description":`${currentQuestion.question}`,
+            "footer":{
+                "text":footerContent.join(" | ")
+            }
         }],
         components:[{
             "type":"ACTION_ROW",
@@ -36,7 +48,9 @@ client.on("interaction", (interaction) => {
                 "customID":"select_answer",
                 "options":currentQuestion.choices.map(ta => {
                     return {"label":ta.title, "value":`answer_${currentQuestionIndex}//${ta.optionName}//${interaction.member?interaction.member.user.id:interaction.user.id}`}
-                })
+                }),
+                "minValues":currentQuestion.requireAllAnswersSelected && (currentQuestion.answer instanceof Array)?currentQuestion.answer.length:undefined,
+                "maxValues":currentQuestion.requireAllAnswersSelected && (currentQuestion.answer instanceof Array)?currentQuestion.answer.length:undefined
             }]
         },
         {
@@ -52,29 +66,30 @@ client.on("interaction", (interaction) => {
         }],
         ephemeral:true
         })
+        .catch(console.error)
     }
     if(interaction.isSelectMenu() && interaction.customID == "select_answer"){
-        const selectedOption = interaction.values[0]
-        if(!selectedOption.startsWith("answer_"))
+        const selectedOptions = interaction.values
+        if(!selectedOptions[0].startsWith("answer_"))
             return interaction.reply({"content":"Invalid interaction."})
-        const currentQuestion = triviaQuestions[(selectedOption.split("//")[0].replace("answer_", "") as any as number)]
-        const originalCommandExecutor = selectedOption.split("//")[2]
-        if(originalCommandExecutor != (interaction.member?interaction.member.user.id:interaction.user.id))
-            return interaction.reply({
-                "ephemeral":true,
-                "content":`You aren't the user who originally ran this command. Play the game yourself using \`!!test\`!`
-            })
-        //"content":`${selectedOption}\n**Question ID**: ${selectedOption.split("//")[0].replace("answer_", "")}\n**Selected option**: ${selectedOption.split("//")[1]}`
+        const currentQuestion = triviaQuestions[(selectedOptions[0].split("//")[0].replace("answer_", "") as any as number)]
         let isAnswerCorrect = false
-        if(currentQuestion.answer instanceof Array && currentQuestion.answer.includes(selectedOption.split("//")[1]))
+
+        //Multiple selections
+        if(currentQuestion.answer instanceof Array && currentQuestion.requireAllAnswersSelected && selectedOptions.filter(v => currentQuestion.answer.includes(v.split("//")[1])).length == currentQuestion.answer.length)
             isAnswerCorrect = true;
-        if(typeof currentQuestion.answer == "string" && currentQuestion.answer == selectedOption.split("//")[1])
+
+        //Multiple answers, one selection
+        if(currentQuestion.answer instanceof Array && !currentQuestion.requireAllAnswersSelected && currentQuestion.answer.includes(selectedOptions[0].split("//")[1]))
+            isAnswerCorrect = true;
+        
+        if(typeof currentQuestion.answer == "string" && !currentQuestion.requireAllAnswersSelected && currentQuestion.answer == selectedOptions[0].split("//")[1])
             isAnswerCorrect = true;
         //currentQuestion.answer == selectedOption.split("//")[1]?`✅`:`❌`
         let newEmbed = new MessageEmbed()
         .setTitle("Trivia")
         .setDescription(currentQuestion.question)
-        .setFooter(`${isAnswerCorrect?`✅`:`❌`} You answered the question ${isAnswerCorrect?`correctly!`:`incorrectly. However, Trivia wouldn't be fun if you knew all the answers. Good luck next time! :)`}`);
+        .setFooter(`${isAnswerCorrect?`✅`:`❌`} You answered the question ${isAnswerCorrect?`correctly!`:`incorrectly. However, trivia wouldn't be as fun if you knew all the answers! Good luck next time! :)`}`);
         interaction.update({
             components:[
                 {
@@ -91,14 +106,25 @@ client.on("interaction", (interaction) => {
             ],
             embeds:[newEmbed]
         })
+        .catch(console.error)
     }
     if(interaction.isButton() && interaction.customID == "play_again"){
+        let footerContent = [];
         const currentQuestionIndex = Math.floor(Math.random() * triviaQuestions.length)
         const currentQuestion = triviaQuestions[currentQuestionIndex]
+        if(!currentQuestion)
+            return interaction.update({embeds:[{"title":"😬 Uh oh, this is awkward", "description":`This server doesn't appear to have any trivia questions available. Try again later, or if you believe this is a mistake, contact the bot support server.`}], components:[{"type":1,"components":[{"type":2,"label":"Try again","style":"SECONDARY","customID":`play_again`}]}]}).catch(console.error)
+        if(currentQuestion.guild_id && currentQuestion.guild_id == interaction.guildID)
+            footerContent.push(`ℹ️ This is a server-specific question`)
+        if(currentQuestion.requireAllAnswersSelected && (currentQuestion.answer instanceof Array))
+            footerContent.push(`#️⃣ You need to select ${currentQuestion.answer.length} options`)
         interaction.update({embeds:[
             {
                 "title":"Trivia",
-                "description":`${currentQuestion.question}`
+                "description":`${currentQuestion.question}`,
+                footer:{
+                    "text":footerContent.join(" | ")
+                }
             }
         ], components:[
             {
@@ -109,7 +135,9 @@ client.on("interaction", (interaction) => {
                         "customID":"select_answer",
                         "options":currentQuestion.choices.map(ta => {
                             return {"label":ta.title, "value":`answer_${currentQuestionIndex}//${ta.optionName}//${interaction.member?interaction.member.user.id:interaction.user.id}`}
-                        })
+                        }),
+                        "minValues":currentQuestion.requireAllAnswersSelected && (currentQuestion.answer instanceof Array)?currentQuestion.answer.length:undefined,
+                        "maxValues":currentQuestion.requireAllAnswersSelected && (currentQuestion.answer instanceof Array)?currentQuestion.answer.length:undefined
                     }
                 ]
             },
@@ -125,6 +153,7 @@ client.on("interaction", (interaction) => {
                 ]
             }
         ]})
+        .catch(console.error)
     }
 })
 
