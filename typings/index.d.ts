@@ -9,7 +9,8 @@ interface TriviaQuestion {
     question:string,
     choices:Array<TriviaAnswer>,
     answer:string | Array<string>,
-    guild_id?:string
+    guild_id?:string,
+    requireAllAnswersSelected?:boolean
 }
 
 interface TriviaConfig extends Array<TriviaQuestion> {}
