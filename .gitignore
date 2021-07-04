@@ -3,3 +3,4 @@ config.ts
 out/
 trivia.json
 new_trivia.json
+.DS_Store
