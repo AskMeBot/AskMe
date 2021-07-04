@@ -20,6 +20,7 @@ client.on("interaction", (interaction) => {
 
     //Trivia commands/events
     let triviaQuestions:TriviaConfig = JSON.parse(readFileSync("./trivia.json").toString())
+    triviaQuestions = triviaQuestions.filter(tq => !tq.guild_id || tq.guild_id == interaction.guildID);
     if(interaction.isCommand() && interaction.commandName == "trivia"){
         const currentQuestionIndex = Math.floor(Math.random() * triviaQuestions.length)
         const currentQuestion = triviaQuestions[currentQuestionIndex]
