@@ -37,6 +37,17 @@ client.on("interaction", (interaction) => {
                     return {"label":ta.title, "value":`answer_${currentQuestionIndex}//${ta.optionName}//${interaction.member?interaction.member.user.id:interaction.user.id}`}
                 })
             }]
+        },
+        {
+            "type":1,
+            "components":[
+                {
+                    "type":2,
+                    "label":"Skip question",
+                    "style":"DANGER",
+                    "customID":`play_again`
+                }
+            ]
         }],
         ephemeral:true
         })
@@ -64,7 +75,7 @@ client.on("interaction", (interaction) => {
                     "components":[
                         {
                             "type":2,
-                            "label":"Play again",
+                            "label":"Next one!",
                             "style":"PRIMARY",
                             "customID":`play_again`
                         }
@@ -92,6 +103,17 @@ client.on("interaction", (interaction) => {
                         "options":currentQuestion.choices.map(ta => {
                             return {"label":ta.title, "value":`answer_${currentQuestionIndex}//${ta.optionName}//${interaction.member?interaction.member.user.id:interaction.user.id}`}
                         })
+                    }
+                ]
+            },
+            {
+                "type":1,
+                "components":[
+                    {
+                        "type":2,
+                        "label":"Skip question",
+                        "style":"DANGER",
+                        "customID":`play_again`
                     }
                 ]
             }
