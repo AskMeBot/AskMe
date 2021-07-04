@@ -43,7 +43,7 @@ client.on("interaction", (interaction) => {
             "components":[
                 {
                     "type":2,
-                    "label":"Skip question",
+                    "label":"Skip",
                     "style":"DANGER",
                     "customID":`play_again`
                 }
@@ -75,7 +75,7 @@ client.on("interaction", (interaction) => {
                     "components":[
                         {
                             "type":2,
-                            "label":"Next one!",
+                            "label":"Continue",
                             "style":"PRIMARY",
                             "customID":`play_again`
                         }
@@ -111,7 +111,7 @@ client.on("interaction", (interaction) => {
                 "components":[
                     {
                         "type":2,
-                        "label":"Skip question",
+                        "label":"Skip",
                         "style":"DANGER",
                         "customID":`play_again`
                     }
