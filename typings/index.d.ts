@@ -8,7 +8,7 @@ interface TriviaAnswer {
 interface TriviaQuestion {
     question:string,
     choices:Array<TriviaAnswer>,
-    answer:string
+    answer:string | Array<string>
 }
 
 interface TriviaConfig extends Array<TriviaQuestion> {}
