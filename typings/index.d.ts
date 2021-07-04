@@ -8,7 +8,8 @@ interface TriviaAnswer {
 interface TriviaQuestion {
     question:string,
     choices:Array<TriviaAnswer>,
-    answer:string | Array<string>
+    answer:string | Array<string>,
+    guild_id?:string
 }
 
 interface TriviaConfig extends Array<TriviaQuestion> {}
