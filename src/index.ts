@@ -64,10 +64,16 @@ client.on("interaction", (interaction) => {
                 "content":`You aren't the user who originally ran this command. Play the game yourself using \`!!test\`!`
             })
         //"content":`${selectedOption}\n**Question ID**: ${selectedOption.split("//")[0].replace("answer_", "")}\n**Selected option**: ${selectedOption.split("//")[1]}`
+        let isAnswerCorrect = false
+        if(currentQuestion.answer instanceof Array && currentQuestion.answer.includes(selectedOption.split("//")[1]))
+            isAnswerCorrect = true;
+        if(typeof currentQuestion.answer == "string" && currentQuestion.answer == selectedOption.split("//")[1])
+            isAnswerCorrect = true;
+        //currentQuestion.answer == selectedOption.split("//")[1]?`✅`:`❌`
         let newEmbed = new MessageEmbed()
         .setTitle("Trivia")
         .setDescription(currentQuestion.question)
-        .setFooter(`${currentQuestion.answer == selectedOption.split("//")[1]?`✅`:`❌`} You answered the question ${currentQuestion.answer == selectedOption.split("//")[1]?`correctly!`:`incorrectly. However, Trivia wouldn't be fun if you knew all the answers. Good luck next time! :)`}`);
+        .setFooter(`${isAnswerCorrect?`✅`:`❌`} You answered the question ${isAnswerCorrect?`correctly!`:`incorrectly. However, Trivia wouldn't be fun if you knew all the answers. Good luck next time! :)`}`);
         interaction.update({
             components:[
                 {
