@@ -2,7 +2,8 @@ type TriviaAnswerOptionName = "A" | "B" | "C" | "D" | string
 
 interface TriviaAnswer {
     title:string,
-    optionName:TriviaAnswerOptionName
+    optionName:TriviaAnswerOptionName,
+    skipCheck?:boolean
 }
 
 interface TriviaQuestion {
@@ -16,5 +17,7 @@ interface TriviaQuestion {
 interface TriviaConfig extends Array<TriviaQuestion> {}
 
 interface Config {
-    token:string
+    token:string,
+    /** Where bot fetches the latest trivia information */
+    dataEndpoint:string
 }
