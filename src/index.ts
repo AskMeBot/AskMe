@@ -74,6 +74,13 @@ client.on("interaction", (interaction) => {
         const selectedOptions = interaction.values
         if(!selectedOptions[0].startsWith("answer_"))
             return interaction.reply({"content":"Invalid interaction."})
+        
+        const originalCommandExecutor = selectedOptions[0].split("//")[2]
+        if(originalCommandExecutor != (interaction.member?interaction.member.user.id:interaction.user.id))
+            return interaction.reply({
+                "ephemeral":true,
+                "content":`You aren't the user who originally ran this command.`
+            })
         const currentQuestion = triviaQuestions[(selectedOptions[0].split("//")[0].replace("answer_", "") as any as number)]
         let isAnswerCorrect = false
 
