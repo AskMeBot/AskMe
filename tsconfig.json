@@ -1,7 +1,9 @@
 {
-    "include": ["src/*", "typings/"],
     "compilerOptions": {
-        "outDir": "out/",
-        "esModuleInterop": true
-    }
+        "esModuleInterop": true,
+        "moduleResolution": "Node",
+        "outDir": "out/"
+    },
+    "exclude": ["node_modules", "out/"],
+    "include": ["typings/", "./src/*.ts"]
 }
