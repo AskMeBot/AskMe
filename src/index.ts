@@ -1,12 +1,30 @@
 import {readFileSync} from 'fs'
 import {Client, MessageEmbed} from 'discord.js'
-import config from '../config'
+import configFile from '../config'
+import fetch from 'node-fetch'
+import {writeFileSync} from 'fs'
 
+const config:Config = (configFile as Config);
 const client = new Client({intents:[]})
 
-client.on('ready', () => {
-    console.log(`${client.user.tag} is ready!`)
-})
+async function updateTrivia(){
+    console.log(`Fetching latest trivia data from '${config.dataEndpoint}'...`)
+    const response = await fetch(config.dataEndpoint, {
+        "method":"GET",
+        "headers":{
+            "authorization":config.dataEndpointAuthorizationHeader || undefined
+        }
+    })
+    if(response.status != 200)
+        return console.log(`Received ${response.status}. Not saving.`)
+    const data = (await response.json() as TriviaConfig)
+    writeFileSync("./trivia.json", JSON.stringify(data))
+    console.log("Latest trivia data fetched")
+}
+updateTrivia()
+setInterval(() => {
+    updateTrivia()
+}, 60 * 60 * 1000)
 
 client.on("interaction", (interaction) => {
 
