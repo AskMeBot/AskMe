@@ -19,5 +19,6 @@ interface TriviaConfig extends Array<TriviaQuestion> {}
 interface Config {
     token:string,
     /** Where bot fetches the latest trivia information */
-    dataEndpoint:string
+    dataEndpoint:string,
+    dataEndpointAuthorizationHeader?:string
 }
