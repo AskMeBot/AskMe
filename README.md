@@ -1,2 +1,2 @@
 # AskMeBot
-Want to learn new facts? Learn some with AskMe!
+Want to learn new facts? Learn some with AskMe! **No support** is given for running this code. You can use the public instance [here](https://discord.com/api/oauth2/authorize?client_id=811759493440471081&scope=applications.commands)!
