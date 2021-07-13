@@ -31,7 +31,7 @@ client.on("interaction", (interaction) => {
     //General Commands
     if(interaction.isCommand() && interaction.commandName == "invite"){
         return interaction.reply({
-            "content":`Want to learn some facts in your own server? [Invite me](<https://discord.com/api/oauth2/authorize?client_id=811759493440471081&scope=applications.commands>) to your server!`,
+            "content":`**Invite**: Want to learn some facts in your own server? [Invite me](<https://discord.com/api/oauth2/authorize?client_id=811759493440471081&scope=applications.commands>) to your server!\n**Source**: You can view the source code related to me on [GitHub](https://github.com/AskMeBot).\n**Suggestions**: Have a suggestion for a question? Suggest it in our [Discord Server](https://discord.gg/AWVWbWYATe)`,
             "ephemeral":true
         })
         .catch(console.error)
