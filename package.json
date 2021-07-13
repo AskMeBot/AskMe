@@ -1,19 +1,22 @@
 {
   "dependencies": {
     "discord.js": "^13.0.0-dev.a08ce7d.1625097834",
+    "node-fetch": "^2.6.1",
     "typescript": "^4.3.5"
   },
   "devDependencies": {
-    "@types/node": "^15.12.5"
+    "@types/node": "^15.12.5",
+    "@types/node-fetch": "^2.5.11"
   },
   "name": "askmebot",
   "description": "Want to learn new facts? Learn some with AskMeBot!",
   "version": "1.0.0",
   "main": "out/src/index.js",
-  "types": "typings/",
+  "typings": "typings/",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node out/src/index.js"
+    "start": "node out/src/index.js",
+    "build": "tsc --build tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -21,7 +24,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-only",
   "bugs": {
     "url": "https://github.com/AskMeBot/TriviaBot/issues"
   },
